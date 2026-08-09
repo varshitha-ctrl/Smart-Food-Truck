@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Food Truck</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet"
+          href="style.css">
+
+    <!-- Leaflet Map CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         NAVIGATION BAR
+    ====================================== -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            🚚🍜 Smart Food Truck
+        </div>
+
+
+        <nav>
+
+    <a href="#" class="active">
+        Track
+    </a>
+
+    <a href="#menu-section">
+        Menu
+    </a>
+
+    <a href="#" class="cart">
+        🛒 Cart <span>0</span>
+    </a>
+
+    <a href="#orders-section" id="orders-link">
+        📦 My Orders
+    </a>
+
+    <a href="#" class="admin">
+        Admin
+    </a>
+
+</nav>
+
+    </header>
+
+
+
+    <!-- =====================================
+         MAIN CONTENT
+    ====================================== -->
+
+    <main>
+
+
+        <!-- =====================================
+             HERO SECTION
+        ====================================== -->
+
+        <section class="hero">
+
+            <h1>
+                Fresh Food.<br>
+                Live Tracking.
+            </h1>
+
+
+            <p>
+                Find nearby food trucks, track their live
+                location and order your favourite food.
+            </p>
+
+
+            <button id="location-button">
+                📍 Find Trucks Near Me
+            </button>
+
+        </section>
+
+
+
+        <!-- =====================================
+             STATUS SECTION
+        ====================================== -->
+
+        <section class="status-section">
+
+
+            <!-- Truck Status -->
+
+            <div class="status-card">
+
+                <div class="card-icon">
+                    🟢
+                </div>
+
+                <div>
+
+                    <h3>
+                        Truck Status
+                    </h3>
+
+                    <h2>
+                        Online
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Nearest Truck -->
+
+            <div class="status-card">
+
+                <div class="card-icon">
+                    📍
+                </div>
+
+                <div>
+
+                    <h3>
+                        Nearest Truck
+                    </h3>
+
+                    <h2 id="nearest-truck">
+                        Searching...
+                    </h2>
+
+                    <p id="nearest-distance">
+                        Distance: --
+                    </p>
+
+                    <p id="nearest-eta">
+                        ETA: --
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Distance -->
+
+            <div class="status-card">
+
+                <div class="card-icon">
+                    📏
+                </div>
+
+                <div>
+
+                    <h3>
+                        Distance
+                    </h3>
+
+                    <h2 id="distance-value">
+                        --
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Estimated Arrival -->
+
+            <div class="status-card">
+
+                <div class="card-icon">
+                    ⏱️
+                </div>
+
+                <div>
+
+                    <h3>
+                        Estimated Arrival
+                    </h3>
+
+                    <h2 id="eta-value">
+                        --
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =====================================
+             LIVE TRUCK LOCATION
+        ====================================== -->
+
+        <section class="tracking-section">
+
+            <h1>
+                Live Truck Location
+            </h1>
+
+
+            <p>
+                Track food trucks in real time
+            </p>
+
+
+            <div class="live-status">
+                🟢 LIVE
+            </div>
+
+
+            <div id="map"></div>
+
+        </section>
+        <!-- ========================================
+     FOOD MENU
+======================================== -->
+
+<section id="menu-section" class="menu-section">
+
+    <h2>🍔 Popular Food</h2>
+
+    <p>Fresh food available from our food trucks</p>
+
+    <div class="menu-grid">
+
+        <!-- Burger -->
+
+        <div class="food-card">
+
+            <div class="food-image">
+                🍔
+            </div>
+
+            <h3>Classic Burger</h3>
+
+            <p>
+                Juicy burger with fresh vegetables
+            </p>
+
+            <h4>₹120</h4>
+
+            <button class="add-cart"
+                    data-name="Classic Burger"
+                    data-price="120">
+                🛒 Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- Wrap -->
+
+        <div class="food-card">
+
+            <div class="food-image">
+                🌯
+            </div>
+
+            <h3>Chicken Wrap</h3>
+
+            <p>
+                Delicious chicken wrap with fresh veggies
+            </p>
+
+            <h4>₹100</h4>
+
+            <button class="add-cart"
+                    data-name="Chicken Wrap"
+                    data-price="100">
+                🛒 Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- Pizza -->
+
+        <div class="food-card">
+
+            <div class="food-image">
+                🍕
+            </div>
+
+            <h3>Cheese Pizza</h3>
+
+            <p>
+                Hot cheesy pizza with fresh toppings
+            </p>
+
+            <h4>₹180</h4>
+
+            <button class="add-cart"
+                    data-name="Cheese Pizza"
+                    data-price="180">
+                🛒 Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- Fries -->
+
+        <div class="food-card">
+
+            <div class="food-image">
+                🍟
+            </div>
+
+            <h3>French Fries</h3>
+
+            <p>
+                Crispy golden French fries
+            </p>
+
+            <h4>₹80</h4>
+
+            <button class="add-cart"
+                    data-name="French Fries"
+                    data-price="80">
+                🛒 Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- Tacos -->
+
+        <div class="food-card">
+
+            <div class="food-image">
+                🌮
+            </div>
+
+            <h3>Mexican Tacos</h3>
+
+            <p>
+                Spicy tacos filled with fresh ingredients
+            </p>
+
+            <h4>₹110</h4>
+
+            <button class="add-cart"
+                    data-name="Mexican Tacos"
+                    data-price="110">
+                🛒 Add to Cart
+            </button>
+
+        </div>
+
+
+        <!-- Drinks -->
+
+        <div class="food-card">
+
+            <div class="food-image">
+                🥤
+            </div>
+
+            <h3>Cold Drink</h3>
+
+            <p>
+                Refreshing chilled soft drink
+            </p>
+
+            <h4>₹50</h4>
+
+            <button class="add-cart"
+                    data-name="Cold Drink"
+                    data-price="50">
+                🛒 Add to Cart
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+        <!-- =====================================
+             AVAILABLE FOOD TRUCKS
+        ====================================== -->
+
+        <section class="truck-list-section">
+
+
+            <h2>
+                🚚 Available Food Trucks
+            </h2>
+
+
+            <!-- Search Box -->
+
+            <div class="search-container">
+
+    <input
+        type="text"
+        id="truck-search"
+        placeholder="🔍 Search food trucks..."
+    >
+
+    <button id="clear-search">
+        ✖ Clear
+    </button>
+
+</div>
+
+            <!-- Truck Cards -->
+
+            <div id="truck-list">
+
+                <p>
+                    📍 Click "Find Trucks Near Me"
+                    to see nearby trucks.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================
+         LEAFLET MAP JAVASCRIPT
+    ====================================== -->
+
+   
+
+    <!-- =====================================
+         OUR JAVASCRIPT
+         IMPORTANT: ONLY ONCE
+    ====================================== -->
+
+    
+
+<!-- ========================================
+     SHOPPING CART
+======================================== -->
+
+<div id="cart-modal" class="cart-modal">
+
+    <div class="cart-box">
+
+        <button id="close-cart" class="close-cart">
+            ✖
+        </button>
+
+        <h2>🛒 Your Cart</h2>
+
+        <div id="cart-items">
+
+            <p>Your cart is empty.</p>
+
+        </div>
+
+        <div class="cart-total">
+
+            <strong>Total:</strong>
+
+            <span id="cart-total">
+                ₹0
+            </span>
+
+        </div>
+
+        <button id="checkout-button">
+            💳 Checkout
+        </button>
+        <div id="payment-section" class="payment-section">
+
+    <h3>💳 Select Payment Mode</h3>
+
+    <label>
+        <input type="radio" name="payment" value="UPI">
+        📱 UPI
+    </label>
+
+    <label>
+        <input type="radio" name="payment" value="Card">
+        💳 Credit / Debit Card
+    </label>
+
+    <label>
+        <input type="radio" name="payment" value="Cash on Delivery">
+        💵 Cash on Delivery
+    </label>
+
+    <button id="pay-button" type="button">
+        ✅ Proceed to Pay
+    </button>
+
+</div>
+        <div id="payment-section" class="payment-section" style="display: none;">
+
+    <h3>💳 Select Payment Mode</h3>
+
+    <label>
+        <input type="radio" name="payment-method" value="UPI">
+        📱 UPI
+    </label>
+
+    <label>
+        <input type="radio" name="payment-method" value="Card">
+        💳 Debit / Credit Card
+    </label>
+
+    <label>
+        <input type="radio" name="payment-method" value="Cash">
+        💵 Cash on Delivery
+    </label>
+
+    <button id="place-order-button">
+        ✅ Place Order
+    </button>
+
+</div>
+        
+
+    </div>
+
+</div>
+<!-- ========================================
+     PAYMENT MODE
+======================================== -->
+
+<div id="payment-section" style="display: none;">
+
+    <h3>💳 Select Payment Mode</h3>
+
+    <label>
+        <input type="radio"
+               name="payment"
+               value="Cash on Delivery">
+        💵 Cash on Delivery
+    </label>
+
+    <br><br>
+
+    <label>
+        <input type="radio"
+               name="payment"
+               value="UPI">
+        📱 UPI
+    </label>
+
+    <br><br>
+
+    <label>
+        <input type="radio"
+               name="payment"
+               value="Card">
+        💳 Card
+    </label>
+
+    <br><br>
+
+    <button id="confirm-payment">
+        ✅ Confirm Payment
+    </button>
+
+</div>
+<!-- ========================================
+     ORDER TRACKING
+======================================== -->
+
+<section id="order-tracking" class="order-tracking-section">
+
+    <h2>📦 Order Tracking</h2>
+
+    <p id="tracking-order-id">
+        No active order
+    </p>
+
+    <div class="order-progress">
+
+        <div class="tracking-step active">
+
+            <div class="step-icon">
+                🧾
+            </div>
+
+            <strong>
+                Order Placed
+            </strong>
+
+        </div>
+
+
+        <div class="tracking-line"></div>
+
+
+        <div class="tracking-step">
+
+            <div class="step-icon">
+                👨‍🍳
+            </div>
+
+            <strong>
+                Preparing
+            </strong>
+
+        </div>
+
+
+        <div class="tracking-line"></div>
+
+
+        <div class="tracking-step">
+
+            <div class="step-icon">
+                🍱
+            </div>
+
+            <strong>
+                Ready
+            </strong>
+
+        </div>
+
+
+        <div class="tracking-line"></div>
+
+
+        <div class="tracking-step">
+
+            <div class="step-icon">
+                🚚
+            </div>
+
+            <strong>
+                On the Way
+            </strong>
+
+        </div>
+
+
+        <div class="tracking-line"></div>
+
+
+        <div class="tracking-step">
+
+            <div class="step-icon">
+                ✅
+            </div>
+
+            <strong>
+                Delivered
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <h3 id="tracking-status">
+        No active order
+    </h3>
+
+</section>
+<!-- ========================================
+     MY ORDERS
+======================================== -->
+
+<section id="orders-section" class="orders-section">
+
+    <h2>📦 My Orders</h2>
+
+    <p class="orders-subtitle">
+        View your previous food orders
+    </p>
+
+    <div id="orders-list">
+
+        <p class="no-orders">
+            🛒 No orders yet.
+        </p>
+
+    </div>
+
+</section>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="script.js"></script>
+</body>
+
+</html>
